@@ -12,7 +12,7 @@ def evaluate(pipeline, X, y):
         X,
         y,
         cv=ts_cv,
-        scoring=["neg_mean_absolute_error", "neg_root_mean_squared_error"],
+        scoring=["neg_mean_absolute_error"],
     )
     mae = -cv_results["test_neg_mean_absolute_error"]
     print(f"Mean Absolute Error:     {mae.mean():.3f} +/- {mae.std():.3f}\n")
