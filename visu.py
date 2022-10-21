@@ -16,7 +16,7 @@ from cleaning import split_nth_last_part
 #     mycolor = 'purple'
 
 
-def plot_last_nth_results(pipeline, X, y, city):
+def plot_last_nth_results(pipeline, X, y, city, label=""):
     trainX, trainY, testX, testY = split_nth_last_part(X, y)
     plot_label = f"{city.upper()}_{pipeline['model']}_{get_current_time()}"
     pipeline.fit(trainX, trainY)
@@ -36,7 +36,7 @@ def plot_last_nth_results(pipeline, X, y, city):
         y_pred,
         test_y=testY,
         plot_y_test=True,
-        label=plot_label,
+        label=f"{plot_label}_{label}",
         mycolor=color,
     )
 
