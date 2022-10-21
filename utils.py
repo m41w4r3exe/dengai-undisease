@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.base import TransformerMixin, BaseEstimator
 
 
 def export_csv_results(pipeline):
@@ -9,3 +10,13 @@ def export_csv_results(pipeline):
 
     # TODO: make automatic version numbering
     preds_df.to_csv("./results/dengue_preds_v1.csv", index=False)
+
+
+class Debugger(BaseEstimator, TransformerMixin):
+    def transform(self, data):
+        # Put a breakpoint to below return line to debug transformed values
+        return data
+
+    def fit(self, data, y=None, **fit_params):
+
+        return self

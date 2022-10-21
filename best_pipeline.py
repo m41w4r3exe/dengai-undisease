@@ -5,6 +5,8 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.pipeline import Pipeline
 import warnings
 
+from utils import Debugger
+
 warnings.filterwarnings("ignore")
 
 
@@ -17,7 +19,14 @@ def best_pipeline_intown(trainX):  ### returns predicted Y
 
     # Preprocessing for numerical data
     numerical_transformer = Pipeline(
-        steps=[("imputer", KNNImputer(n_neighbors=5)), ("scaler", StandardScaler())]
+        steps=[
+            ("imputer", KNNImputer(n_neighbors=5)),
+            (
+                "debugger",
+                Debugger(),
+            ),
+            ("scaler", StandardScaler()),
+        ]
     )
     # Preprocessing for categorical data
     categorical_transformer = OneHotEncoder()
@@ -33,6 +42,15 @@ def best_pipeline_intown(trainX):  ### returns predicted Y
 
     model = RandomForestRegressor(n_estimators=300, max_depth=5)
 
-    pipeline = Pipeline([("preprocessor", preprocessor), ("regressor", model)])
+    pipeline = Pipeline(
+        [
+            ("preprocessor", preprocessor),
+            # (
+            #     "debugger",
+            #     Debugger(),
+            # ),
+            ("regressor", model),
+        ]
+    )
 
     return pipeline
