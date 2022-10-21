@@ -19,6 +19,56 @@ def get_train_data(city):
     trimmed_trainX = city_filtered_trainX.drop(["week_start_date", "city"], axis=1)
     trimmed_trainY = city_filtered_trainY.drop(["year", "weekofyear", "city"], axis=1)
 
+    # ndvi
+    ndvi_cols = ["ndvi_ne", "ndvi_nw", "ndvi_se", "ndvi_sw"]
+    trimmed_trainX.drop(ndvi_cols, axis=1, inplace=True)
+
+    # Precipitation
+    precipitation_cols = [
+        "precipitation_amt_mm",
+        "reanalysis_precip_amt_kg_per_m2",
+        "reanalysis_sat_precip_amt_mm",
+        "station_precip_mm",
+    ]
+    trimmed_trainX["precip_avg"] = trimmed_trainX[precipitation_cols].mean(axis=1)
+    trimmed_trainX.drop(precipitation_cols, axis=1, inplace=True)
+
+    # temperature
+    temp_cols = [
+        "reanalysis_air_temp_k",
+        "reanalysis_avg_temp_k",
+        "station_avg_temp_c",
+        "reanalysis_tdtr_k",
+    ]
+    trimmed_trainX["temp_avg"] = trimmed_trainX[temp_cols].mean(axis=1)
+    trimmed_trainX.drop(temp_cols, axis=1, inplace=True)
+
+    # Max temperature
+    max_temp = ["reanalysis_max_air_temp_k", "station_max_temp_c"]
+    trimmed_trainX["max_temp_avg"] = trimmed_trainX[max_temp].mean(axis=1)
+    trimmed_trainX.drop(max_temp, axis=1, inplace=True)
+
+    # Min temperature
+    min_temp = ["reanalysis_min_air_temp_k", "station_min_temp_c"]
+    trimmed_trainX["min_temp_avg"] = trimmed_trainX[min_temp].mean(axis=1)
+    trimmed_trainX.drop(min_temp, axis=1, inplace=True)
+
+    # Temperature range
+    temp_range = ["station_diur_temp_rng_c", "temp_range_avg"]
+    trimmed_trainX["temp_range_avg"] = (
+        trimmed_trainX.max_temp_avg - trimmed_trainX.min_temp_avg
+    )
+    trimmed_trainX["temp_range_avg"] = trimmed_trainX[temp_range].mean(axis=1)
+    trimmed_trainX.drop("station_diur_temp_rng_c", axis=1, inplace=True)
+
+    # Humidity
+    humidity_cols = [
+        "reanalysis_relative_humidity_percent",
+        "reanalysis_specific_humidity_g_per_kg",
+    ]
+    trimmed_trainX["humidity_avg"] = trimmed_trainX[humidity_cols].mean(axis=1)
+    trimmed_trainX.drop(humidity_cols, axis=1, inplace=True)
+
     return trimmed_trainX, trimmed_trainY
 
 
