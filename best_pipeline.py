@@ -49,7 +49,7 @@ def best_pipeline_intown(trainX):  ### returns predicted Y
             #     "debugger",
             #     Debugger(),
             # ),
-            ("regressor", model),
+            ("model", model),
         ]
     )
 
