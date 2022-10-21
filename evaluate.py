@@ -19,6 +19,8 @@ def cross_evaluate(pipeline, X, y):
     mae = -cv_results["test_neg_mean_absolute_error"]
     print(f"Mean Absolute Error:     {mae.mean():.3f} +/- {mae.std():.3f}\n")
 
+    return f" MAE : {mae.mean():.3f} +/- {mae.std():.3f}"
+
 
 def cross_evaluate_for_city(city):
     print(f"\nResults for {city.upper()}:")
@@ -32,3 +34,20 @@ def cross_evaluate_for_city(city):
 
 cross_evaluate_for_city("sj")
 cross_evaluate_for_city("iq")
+
+
+def get_save_params(score_sj, score_iq):
+    X, y = get_train_data("sj")
+    pipeline = best_pipeline_intown(X)
+    data = str(pipeline.named_steps)
+    data = data.replace("\n", "").replace("  ", "")
+    data = score_sj + ", " + score_iq + ", " + data
+
+    with open("results.txt", "a") as myfile:
+        myfile.write(f"\n{data}")
+
+
+if __name__ == "__main__":
+    score_sj = cross_evaluate_for_city("sj")
+    score_iq = cross_evaluate_for_city("iq")
+    get_save_params(score_sj, score_iq)

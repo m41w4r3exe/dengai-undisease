@@ -23,6 +23,9 @@
   - use warm_start parameter in regressor object to train model on two cities sequentially
 - feature engineering (see feature engineering)
 - create new pipeline (time-series forecasting)
+  - arima / sarimax
+  - prophet
+  - combination of arima and random forest
 - 8 PM: First draft ready
 
 ## Saturday
@@ -46,6 +49,7 @@
 
 
 # Feature Engineering Ideas
+- take into account past x: exponential smoothing (with random tree regressors)
 - feature engineering/model tuning
   - ndvi data
     - make model for each city
@@ -75,5 +79,4 @@
     - encode dates as cos function
     - create seasons
     - create months feature
-  - city encoding
-    - try mean encoding
+  - city encoding: try mean encoding
