@@ -15,9 +15,9 @@ def get_train_data(city: str = ""):
 
     trimmed_trainX = official_trainX.drop(["week_start_date"], axis=1)
     # rolling the dataframe and concatenating it
-    # trimmed_trainX = rolling_dataframe_and_concat(trimmed_trainX, n=2)
+    trimmed_trainX = rolling_dataframe_and_concat(trimmed_trainX, n=2)
     # rolling the dataframe
-    trimmed_trainX = rolling_dataframe_baby(trimmed_trainX, n=4)
+    # trimmed_trainX = rolling_dataframe_baby(trimmed_trainX, n=3)
     trimmed_trainY = official_trainY.drop(["year", "weekofyear"], axis=1)
 
     if city != "":
@@ -76,3 +76,17 @@ def rolling_dataframe_and_concat(df, n=2):
 
     df_rolled_and_concat = pd.concat([df, df_rolled], axis=1)
     return df_rolled_and_concat
+
+
+def convert_from_kelvin_to_celcius(df, col):
+    diff_kelving_celcius = -273
+    converted_col = df.loc[:, col] + diff_kelving_celcius
+    df.loc[:, col] = converted_col
+    return df
+
+# cols_with_temp_in_kelvin = ['reanalysis_air_temp_k', 'reanalysis_avg_temp_k',
+# 'reanalysis_dew_point_temp_k','reanalysis_max_air_temp_k',
+# 'reanalysis_min_air_temp_k']
+
+# for col in cols_with_temp_in_kelvin:
+#     df=convert_from_kelvin_to_celcius(df, col)
