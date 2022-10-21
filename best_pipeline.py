@@ -8,7 +8,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-def best_pipeline_intown(trainX, trainY, testX):  ### returns predicted Y
+def best_pipeline_intown(trainX):  ### returns predicted Y
 
     all_numerical_features = trainX.select_dtypes(include=["int64", "float64"]).columns
     all_categorical_features = trainX.select_dtypes(include=[object]).columns
@@ -33,8 +33,6 @@ def best_pipeline_intown(trainX, trainY, testX):  ### returns predicted Y
 
     model = RandomForestRegressor(n_estimators=300, max_depth=5)
 
-    pipeline = Pipeline([("preprocessor", preprocessor), ("svr", model)])
-    pipeline.fit(trainX, trainY)
-    predicted_Y = pipeline.predict(testX)
+    pipeline = Pipeline([("preprocessor", preprocessor), ("regressor", model)])
 
-    return predicted_Y
+    return pipeline

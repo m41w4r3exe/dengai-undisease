@@ -1,3 +1,5 @@
 .DS_Store
 env-dengai
 data_cleaning.ipynb
+
+__pycache__
