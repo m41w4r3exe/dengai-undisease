@@ -5,3 +5,4 @@ data_cleaning.ipynb
 __pycache__
 .vscode
 viz/*
+Baseline_model_jean.ipynb
