@@ -19,7 +19,8 @@
   - 12 PM: cross-validation ready
 - 2PM visualize every feature as a line chart with cities as colors
   - also visualization of effect of transformers
-- make one model per city
+- make one model per city and one model for both
+  - use warm_start parameter in regressor object to train model on two cities sequentially
 - feature engineering (see feature engineering)
 - create new pipeline (time-series forecasting)
 - 8 PM: First draft ready
