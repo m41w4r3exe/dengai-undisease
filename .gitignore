@@ -1,4 +1,9 @@
 .DS_Store
 env-dengai
 data_cleaning.ipynb
+.ipynb_checkpoints
+__pycache__
+.vscode
+viz/*
+
 
