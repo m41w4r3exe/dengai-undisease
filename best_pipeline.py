@@ -28,6 +28,9 @@ def best_pipeline_intown(trainX):  ### returns predicted Y
     numerical_features = [value for value in all_numerical_features]
     categorical_features = [value for value in all_categorical_features]
 
+    numerical_features.remove("year")
+    # categorical_features.append("year")
+
     # Preprocessing for numerical data
     numerical_transformer = Pipeline(
         steps=[
