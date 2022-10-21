@@ -21,9 +21,10 @@ class Debugger(BaseEstimator, TransformerMixin):
         return self
 
 
-def best_pipeline_intown(trainX):  ### returns predicted Y
+def best_pipeline_intown(trainX):  # returns predicted Y
 
-    all_numerical_features = trainX.select_dtypes(include=["int64", "float64"]).columns
+    all_numerical_features = trainX.select_dtypes(
+        include=["int64", "float64"]).columns
     all_categorical_features = trainX.select_dtypes(include=[object]).columns
     numerical_features = [value for value in all_numerical_features]
     categorical_features = [value for value in all_categorical_features]
@@ -34,7 +35,7 @@ def best_pipeline_intown(trainX):  ### returns predicted Y
     # Preprocessing for numerical data
     numerical_transformer = Pipeline(
         steps=[
-            ("imputer", KNNImputer(n_neighbors=5)),
+            ("imputer", KNNImputer(n_neighbors=20)),
             ("scaler", StandardScaler()),
         ]
     )
@@ -51,7 +52,11 @@ def best_pipeline_intown(trainX):  ### returns predicted Y
         remainder="passthrough",
     )
 
-    model = RandomForestRegressor(n_estimators=300, max_depth=5)
+    model = RandomForestRegressor(
+        n_estimators=300, max_depth=5,
+        criterion="squared_error",
+        min_samples_leaf=10
+    )
 
     pipeline = Pipeline(
         [

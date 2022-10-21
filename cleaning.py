@@ -15,7 +15,8 @@ def get_train_data(city: str = ""):
 
     trimmed_trainX = official_trainX.drop(["week_start_date"], axis=1)
     # rolling the dataframe and concatenating it
-    trimmed_trainX = rolling_dataframe_and_concat(trimmed_trainX, n=2)
+    # trimmed_trainX = rolling_dataframe_and_concat(trimmed_trainX, n=2)
+    trimmed_trainX = lagged_data_frame(trimmed_trainX)
     # rolling the dataframe
     # trimmed_trainX = rolling_dataframe_baby(trimmed_trainX, n=3)
     trimmed_trainY = official_trainY.drop(["year", "weekofyear"], axis=1)
@@ -76,6 +77,17 @@ def rolling_dataframe_and_concat(df, n=2):
 
     df_rolled_and_concat = pd.concat([df, df_rolled], axis=1)
     return df_rolled_and_concat
+
+
+def lagged_data_frame(df, n=1):
+    shifted_df = df.shift(periods=1, freq=None, axis=0)
+    shifted_df = shifted_df.drop(["year", "weekofyear"], axis=1)
+    for col in shifted_df.columns:
+        shifted_df.rename(columns={col: f"{col}_shifted"}, inplace=True)
+
+    shifted_df = pd.concat([df, shifted_df], axis=1)
+
+    return shifted_df
 
 
 def convert_from_kelvin_to_celcius(df, col):
