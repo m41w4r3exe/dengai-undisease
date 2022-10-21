@@ -1,7 +1,7 @@
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import KNNImputer
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.preprocessing import StandardScaler, OneHotEncoder, LabelEncoder
 from sklearn.pipeline import Pipeline
 import warnings
 from sklearn.base import TransformerMixin, BaseEstimator
@@ -28,19 +28,19 @@ def best_pipeline_intown(trainX):  ### returns predicted Y
     numerical_features = [value for value in all_numerical_features]
     categorical_features = [value for value in all_categorical_features]
 
+    numerical_features.remove("year")
+    categorical_features.append("year")
+
     # Preprocessing for numerical data
     numerical_transformer = Pipeline(
         steps=[
             ("imputer", KNNImputer(n_neighbors=5)),
-            (
-                "debugger",
-                Debugger(),
-            ),
             ("scaler", StandardScaler()),
         ]
     )
+
     # Preprocessing for categorical data
-    categorical_transformer = OneHotEncoder()
+    categorical_transformer = OneHotEncoder(handle_unknown="ignore")
 
     # Bundle Preprocessing for numerical and categorical data
     preprocessor = ColumnTransformer(
@@ -56,10 +56,10 @@ def best_pipeline_intown(trainX):  ### returns predicted Y
     pipeline = Pipeline(
         [
             ("preprocessor", preprocessor),
-            # (
-            #     "debugger",
-            #     Debugger(),
-            # ),
+            (
+                "debugger",
+                Debugger(),
+            ),
             ("model", model),
         ]
     )
