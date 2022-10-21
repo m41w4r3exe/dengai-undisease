@@ -15,6 +15,7 @@ def export_csv_results(pipeline):
 class Debugger(BaseEstimator, TransformerMixin):
     def transform(self, data):
         # Put a breakpoint to below return line to debug transformed values
+        # make plots of transformed and non transformed data
         return data
 
     def fit(self, data, y=None, **fit_params):
