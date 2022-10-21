@@ -2,6 +2,13 @@ import pandas as pd
 from sklearn.model_selection import TimeSeriesSplit
 
 
+def get_test_data(city: str = ""):
+    official_testX = pd.read_csv("data/dengue_features_test.csv")
+    trimmed_testX = official_testX.drop(["week_start_date"], axis=1)
+    city_filtered_trainX = trimmed_testX[trimmed_testX.city == city]
+    return city_filtered_trainX.drop("city", axis=1)
+
+
 def get_train_data(city: str = ""):
     official_trainX = pd.read_csv("./data/dengue_features_train.csv")
     official_trainY = pd.read_csv("./data/dengue_labels_train.csv")
@@ -12,6 +19,7 @@ def get_train_data(city: str = ""):
     if city != "":
         city_filtered_trainX = trimmed_trainX[trimmed_trainX.city == city]
         city_filtered_trainY = trimmed_trainY[trimmed_trainX.city == city]
+        city_filtered_trainX = city_filtered_trainX.drop("city", axis=1)
         city_filtered_trainY = city_filtered_trainY.drop("city", axis=1)
         return city_filtered_trainX, city_filtered_trainY
 

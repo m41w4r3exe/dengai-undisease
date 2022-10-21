@@ -1,27 +1,34 @@
 import pandas as pd
-from sklearn.base import TransformerMixin, BaseEstimator
 from datetime import datetime
+from best_pipeline import best_pipeline_intown
+from cleaning import get_test_data, get_train_data
 
 
-def export_csv_results(pipeline):
-    official_testX = pd.read_csv("data/dengue_features_test.csv")
-    predsY = pipeline.predict(official_testX)
-    preds_df = official_testX.iloc[:, :3]
-    preds_df["total_cases"] = predsY.round(0).astype(int)
-    preds_df.to_csv(f"./results/dengue_preds_{get_current_time()}.csv", index=False)
+def export_results(city):
+    testX_sj = get_test_data(city)
+    X, y = get_train_data(city)
+    pipeline = best_pipeline_intown(testX_sj)
+    pipeline.fit(X, y)
+    predicted_Y = pipeline.predict(testX_sj)
+    rounded_y = testX_sj.iloc[:, :2]
+    rounded_y.insert(0, "city", city)
+    rounded_y["total_cases"] = predicted_Y.round(0).astype(int)
+    return rounded_y
 
 
-class Debugger(BaseEstimator, TransformerMixin):
-    def transform(self, data):
-        # Put a breakpoint to below return line to debug transformed values
-        # TODO:make plots of transformed and non transformed data
-        return data
+def export_csv():
+    sj_results = export_results("sj")
+    iq_results = export_results("iq")
 
-    def fit(self, data, y=None, **fit_params):
+    results = pd.concat([sj_results, iq_results])
 
-        return self
+    results.to_csv(f"./results/dengue_preds_{get_current_time()}.csv", index=False)
 
 
 def get_current_time():
     currentDateAndTime = datetime.now()
     return currentDateAndTime.strftime("%H_%M_%S")
+
+
+if __name__ == "__main__":
+    export_csv()

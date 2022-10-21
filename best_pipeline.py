@@ -4,10 +4,21 @@ from sklearn.impute import KNNImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.pipeline import Pipeline
 import warnings
+from sklearn.base import TransformerMixin, BaseEstimator
 
-from utils import Debugger
 
 warnings.filterwarnings("ignore")
+
+
+class Debugger(BaseEstimator, TransformerMixin):
+    def transform(self, data):
+        # Put a breakpoint to below return line to debug transformed values
+        # TODO:make plots of transformed and non transformed data
+        return data
+
+    def fit(self, data, y=None, **fit_params):
+
+        return self
 
 
 def best_pipeline_intown(trainX):  ### returns predicted Y
