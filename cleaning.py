@@ -16,9 +16,10 @@ def get_train_data(city: str = ""):
     trimmed_trainX = official_trainX.drop(["week_start_date"], axis=1)
     # rolling the dataframe and concatenating it
     # trimmed_trainX = rolling_dataframe_and_concat(trimmed_trainX, n=2)
-    trimmed_trainX = lagged_data_frame(trimmed_trainX)
+    # trimmed_trainX = lagged_data_frame(trimmed_trainX)
+    # trimmed_trainX = select_only_temperature(trimmed_trainX)
     # rolling the dataframe
-    # trimmed_trainX = rolling_dataframe_baby(trimmed_trainX, n=3)
+    trimmed_trainX = rolling_dataframe_and_concat(trimmed_trainX, n=1)
     trimmed_trainY = official_trainY.drop(["year", "weekofyear"], axis=1)
 
     if city != "":
@@ -86,7 +87,6 @@ def lagged_data_frame(df, n=1):
         shifted_df.rename(columns={col: f"{col}_shifted"}, inplace=True)
 
     shifted_df = pd.concat([df, shifted_df], axis=1)
-
     return shifted_df
 
 
@@ -95,6 +95,47 @@ def convert_from_kelvin_to_celcius(df, col):
     converted_col = df.loc[:, col] + diff_kelving_celcius
     df.loc[:, col] = converted_col
     return df
+
+
+def select_only_temperature(df):
+    df_temperature_only = df.loc[
+        :, ['city', 'year', 'weekofyear',
+            'reanalysis_air_temp_k', 'reanalysis_avg_temp_k',
+            'reanalysis_dew_point_temp_k', 'reanalysis_max_air_temp_k',
+            'reanalysis_min_air_temp_k', 'reanalysis_tdtr_k',
+            'station_avg_temp_c', 'station_diur_temp_rng_c', 'station_max_temp_c',
+            'station_min_temp_c']
+    ]
+    return df_temperature_only
+
+
+def select_only_env(df):
+    df_env_only = df.loc[
+        :, ['city', 'year', 'weekofyear',
+            'ndvi_ne', 'ndvi_nw',
+            'ndvi_se', 'ndvi_sw']
+    ]
+
+
+def select_humidity_env(df):
+    df_hum_only = df.loc[
+        :, ['city', 'year', 'weekofyear',
+            'precipitation_amt_mm', 'reanalysis_precip_amt_kg_per_m2',
+            'reanalysis_relative_humidity_percent',
+            'reanalysis_sat_precip_amt_mm', 'station_precip_mm']
+    ]
+    return df_hum_only
+
+
+#  ['city', 'year', 'weekofyear', 'week_start_date', 'ndvi_ne', 'ndvi_nw',
+#        'ndvi_se', 'ndvi_sw', 'precipitation_amt_mm', 'reanalysis_air_temp_k',
+#        'reanalysis_avg_temp_k', 'reanalysis_dew_point_temp_k',
+#        'reanalysis_max_air_temp_k', 'reanalysis_min_air_temp_k',
+#        'reanalysis_precip_amt_kg_per_m2',
+#        'reanalysis_relative_humidity_percent', 'reanalysis_sat_precip_amt_mm',
+#        'reanalysis_specific_humidity_g_per_kg', 'reanalysis_tdtr_k',
+#        'station_avg_temp_c', 'station_diur_temp_rng_c', 'station_max_temp_c',
+#        'station_min_temp_c', 'station_precip_mm']
 
 # cols_with_temp_in_kelvin = ['reanalysis_air_temp_k', 'reanalysis_avg_temp_k',
 # 'reanalysis_dew_point_temp_k','reanalysis_max_air_temp_k',

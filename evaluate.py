@@ -29,13 +29,15 @@ def cross_evaluate_for_city(city):
     mae_mean, mae_std = cross_evaluate(pipeline, X, y)
     text_score = f"{city} - MAE : {mae_mean:.3f} +/- {mae_std:.3f}"
 
-    plot_last_nth_results(pipeline, X, y, city, label="shifted_df")
+    plot_last_nth_results(pipeline, X, y, city, label="rolling_1_concat")
 
     return text_score, mae_mean, mae_std
 
 
 def get_save_params(
     score_sj, score_iq, mae_mean_sj, mae_std_sj, mae_mean_iq, mae_std_iq
+
+
 ):
 
     # Calculate scores
