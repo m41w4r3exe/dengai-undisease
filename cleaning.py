@@ -30,7 +30,7 @@ def get_train_data(city):
         "reanalysis_sat_precip_amt_mm",
         "station_precip_mm",
     ]
-    trimmed_trainX["precip_avg"] = trimmed_trainX[precipitation_cols].mean(axis=1)
+    # trimmed_trainX["precip_avg"] = trimmed_trainX[precipitation_cols].mean(axis=1)
     trimmed_trainX.drop(precipitation_cols, axis=1, inplace=True)
 
     # temperature
@@ -66,7 +66,7 @@ def get_train_data(city):
         "reanalysis_relative_humidity_percent",
         "reanalysis_specific_humidity_g_per_kg",
     ]
-    trimmed_trainX["humidity_avg"] = trimmed_trainX[humidity_cols].mean(axis=1)
+    # trimmed_trainX["humidity_avg"] = trimmed_trainX[humidity_cols].mean(axis=1)
     trimmed_trainX.drop(humidity_cols, axis=1, inplace=True)
 
     return trimmed_trainX, trimmed_trainY
