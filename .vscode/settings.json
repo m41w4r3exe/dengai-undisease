@@ -1,0 +1,4 @@
+{
+    "python.formatting.provider": "black",
+    "python.defaultInterpreterPath": "/Users/jean/opt/anaconda3/envs/dsr-minicomp/bin/python"
+}
