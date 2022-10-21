@@ -16,7 +16,9 @@ def get_train_data(city):
     city_filtered_trainX = official_trainX[official_trainX.city == city]
     city_filtered_trainY = official_trainY[official_trainY.city == city]
 
-    trimmed_trainX = city_filtered_trainX.drop(["week_start_date", "city"], axis=1)
+    trimmed_trainX = city_filtered_trainX.drop(
+        ["year", "week_start_date", "city"], axis=1
+    )
     trimmed_trainY = city_filtered_trainY.drop(["year", "weekofyear", "city"], axis=1)
 
     return trimmed_trainX, trimmed_trainY

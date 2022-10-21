@@ -17,6 +17,7 @@ def cross_evaluate(pipeline, X, y):
         scoring=["neg_mean_absolute_error"],
     )
     mae = -cv_results["test_neg_mean_absolute_error"]
+    print(mae)
     print(f"Mean Absolute Error:     {mae.mean():.3f} +/- {mae.std():.3f}\n")
     return mae.mean(), mae.std()
 
@@ -29,7 +30,7 @@ def cross_evaluate_for_city(city):
     mae_mean, mae_std = cross_evaluate(pipeline, X, y)
     text_score = f"{city} - MAE : {mae_mean:.3f} +/- {mae_std:.3f}"
 
-    plot_last_nth_results(pipeline, X, y, city)
+    # plot_last_nth_results(pipeline, X, y, city)
 
     return text_score, mae_mean, mae_std
 

@@ -5,12 +5,13 @@ from cleaning import get_test_data, get_train_data
 
 
 def export_results(city):
-    testX_sj = get_test_data(city)
+    testX = get_test_data(city)
     X, y = get_train_data(city)
-    pipeline = best_pipeline_intown(testX_sj)
+    testX_cityless = testX.drop("year", axis=1)
+    pipeline = best_pipeline_intown(testX_cityless)
     pipeline.fit(X, y)
-    predicted_Y = pipeline.predict(testX_sj)
-    rounded_y = testX_sj.iloc[:, :2]
+    predicted_Y = pipeline.predict(testX_cityless)
+    rounded_y = testX.iloc[:, :2]
     rounded_y.insert(0, "city", city)
     rounded_y["total_cases"] = predicted_Y.round(0).astype(int)
     return rounded_y
