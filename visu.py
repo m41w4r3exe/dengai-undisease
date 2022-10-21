@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from sklearn.metrics import mean_absolute_error
+from utils import get_current_time
+from cleaning import split_nth_last_part
 
 # This is how to use this
 # vizualize_fit(
@@ -12,6 +14,31 @@ from sklearn.metrics import mean_absolute_error
 #     plot_y_test=True,
 #     label='City_Model_Version',
 #     mycolor = 'purple'
+
+
+def plot_last_nth_results(pipeline, X, y, city, label=""):
+    trainX, trainY, testX, testY = split_nth_last_part(X, y)
+    plot_label = f"{city.upper()}_{pipeline['model']}_{get_current_time()}"
+    pipeline.fit(trainX, trainY)
+    y_train_pred = pipeline.predict(trainX)
+    y_pred = pipeline.predict(testX)
+    trainY["year"] = trainX["year"]
+    trainY["weekofyear"] = trainX["weekofyear"]
+    testY["year"] = testX["year"]
+    testY["weekofyear"] = testX["weekofyear"]
+    if city == "iq":
+        color = "purple"
+    else:
+        color = "green"
+    vizualize_fit(
+        trainY,
+        y_train_pred,
+        y_pred,
+        test_y=testY,
+        plot_y_test=True,
+        label=f"{plot_label}_{label}",
+        mycolor=color,
+    )
 
 
 def vizualize_fit(
@@ -64,7 +91,7 @@ def vizualize_fit(
         y_test, predict_test, data_type="Test", mae=test_mae, ax=axs[1], mycolor=mycolor
     )
     plt.tight_layout()
-    fig.savefig(f"Correlation_Real_Prediction_{label}")
+    fig.savefig(f"./viz/results_comparison_correlation/Correlation_{label}")
 
     fig, axs = plt.subplots(figsize=(10, 12), nrows=2)
     # ploting real and predicted as a fucntio of time - train set
@@ -76,7 +103,7 @@ def vizualize_fit(
         y_test, predict_test, axs[1], time_test, color=mycolor, label="Test Set"
     )
     plt.tight_layout()
-    fig.savefig(f"Comparison_Real_Prediction_{label}")
+    fig.savefig(f"./viz/results_comparison_correlation/Comparison_{label}")
 
 
 ##
