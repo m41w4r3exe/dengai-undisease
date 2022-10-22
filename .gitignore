@@ -6,3 +6,5 @@ __pycache__
 .vscode
 viz/*
 Baseline_model_jean.ipynb
+jupyters_for_fun
+figures_baseline_all_features/*
