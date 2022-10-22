@@ -5,6 +5,4 @@ data_cleaning.ipynb
 __pycache__
 .vscode
 viz/*
-
-
 results.txt
