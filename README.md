@@ -26,10 +26,10 @@ Quick iterative process
 
 ### Day 2
 - Feature engineering
-- Model Twiking
+- Model Tweaking
 
 ### Day 3
-- Last twiking
+- Last tweaking
 - Preparing presentation
 
 for more check `plan.md`
@@ -46,11 +46,14 @@ for more check `plan.md`
 - `evaluate.py` > main
     - `best_pipeline`
         - random forest regressor
+    - `utils.py` 
+        - loading traces
+    - `cleaning` 
         - PNN filling
         - drop nans values when > 4 in a row
         - removing outliers (when target > 5 x mean)
-    - `utils.py` 
-    - `cleaning` 
     - `visu` > awesome plots
 
-## Our results
+## Our prediction
+
+`dengue_preds_15_00_37.csv` > score: MAE = 24.75 on DRIVENDATA
