@@ -4,14 +4,18 @@ from sklearn.model_selection import TimeSeriesSplit
 
 def get_test_data(city):
     official_testX = pd.read_csv("data/dengue_features_test.csv")
-    city_filtered_trainX = official_testX[official_testX.city == city]
-    trimmed_testX = city_filtered_trainX.drop(["week_start_date", "city"], axis=1)
+    city_filtered_testX = official_testX[official_testX.city == city]
+    trimmed_testX = city_filtered_testX.drop(["week_start_date", "city"], axis=1)
     return trimmed_testX
 
 
 def get_train_data(city):
     official_trainX = pd.read_csv("./data/dengue_features_train.csv")
     official_trainY = pd.read_csv("./data/dengue_labels_train.csv")
+
+    too_much_nas = official_trainX.isnull().sum(axis=1) < 4
+    official_trainX = official_trainX[too_much_nas]
+    official_trainY = official_trainY[too_much_nas]
 
     city_filtered_trainX = official_trainX[official_trainX.city == city]
     city_filtered_trainY = official_trainY[official_trainY.city == city]
