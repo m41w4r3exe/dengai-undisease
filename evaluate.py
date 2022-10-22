@@ -17,6 +17,7 @@ def cross_evaluate(pipeline, X, y):
         scoring=["neg_mean_absolute_error"],
     )
     mae = -cv_results["test_neg_mean_absolute_error"]
+    print(mae)
     print(f"Mean Absolute Error:     {mae.mean():.3f} +/- {mae.std():.3f}\n")
     return mae.mean(), mae.std()
 

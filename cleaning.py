@@ -2,32 +2,27 @@ import pandas as pd
 from sklearn.model_selection import TimeSeriesSplit
 
 
-def get_test_data(city: str = ""):
+def get_test_data(city):
     official_testX = pd.read_csv("data/dengue_features_test.csv")
-    trimmed_testX = official_testX.drop(["week_start_date"], axis=1)
-    city_filtered_trainX = trimmed_testX[trimmed_testX.city == city]
-    return city_filtered_trainX.drop("city", axis=1)
+    city_filtered_trainX = official_testX[official_testX.city == city]
+    trimmed_testX = city_filtered_trainX.drop(["week_start_date", "city"], axis=1)
+    return trimmed_testX
 
 
-def get_train_data(city: str = ""):
+def get_train_data(city):
     official_trainX = pd.read_csv("./data/dengue_features_train.csv")
     official_trainY = pd.read_csv("./data/dengue_labels_train.csv")
 
-    trimmed_trainX = official_trainX.drop(["week_start_date"], axis=1)
-    # rolling the dataframe and concatenating it
-    # trimmed_trainX = rolling_dataframe_and_concat(trimmed_trainX, n=2)
+    city_filtered_trainX = official_trainX[official_trainX.city == city]
+    city_filtered_trainY = official_trainY[official_trainY.city == city]
+
+    trimmed_trainX = city_filtered_trainX.drop(
+        ["year", "week_start_date", "city"], axis=1
+    )
+
     # rolling the dataframe
-    trimmed_trainX = rolling_dataframe_baby(trimmed_trainX, n=4)
-    trimmed_trainY = official_trainY.drop(["year", "weekofyear"], axis=1)
-
-    if city != "":
-        city_filtered_trainX = trimmed_trainX[trimmed_trainX.city == city]
-        city_filtered_trainY = trimmed_trainY[trimmed_trainX.city == city]
-        city_filtered_trainX = city_filtered_trainX.drop("city", axis=1)
-        city_filtered_trainY = city_filtered_trainY.drop("city", axis=1)
-        return city_filtered_trainX, city_filtered_trainY
-
-    trimmed_trainY = trimmed_trainY.drop("city", axis=1)
+    # trimmed_trainX = rolling_dataframe_baby(trimmed_trainX, n=4)
+    trimmed_trainY = city_filtered_trainY.drop(["year", "weekofyear", "city"], axis=1)
 
     return trimmed_trainX, trimmed_trainY
 
