@@ -56,10 +56,7 @@ def best_pipeline_intown(trainX):  ### returns predicted Y
     pipeline = Pipeline(
         [
             ("preprocessor", preprocessor),
-            (
-                "debugger",
-                Debugger(),
-            ),
+            ("debugger", Debugger()),
             ("model", model),
         ]
     )

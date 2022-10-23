@@ -37,7 +37,7 @@ def get_train_data(city):
     return peakless_trainX, peakless_trainY
 
 
-def get_time_series_splitter(X):
+def  get_time_series_splitter(X):
     row = X.shape[0]
     n_splits = round(row / 52)
     return TimeSeriesSplit(n_splits=n_splits, gap=0)
