@@ -57,3 +57,7 @@ for more check `plan.md`
 ## Our prediction
 
 `dengue_preds_15_00_37.csv` > score: MAE = 24.75 on DRIVENDATA
+
+# TO DO 
+ - rolling average to fix
+ - oversampling
