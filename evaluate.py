@@ -23,7 +23,7 @@ def cross_evaluate_for_city(city):
     X, y = get_train_data(city)
     pipeline = best_pipeline_intown(X)
     mae = cross_evaluate(pipeline, X, y)
-    # plot_last_nth_results(pipeline, X, y, city)
+    plot_last_nth_results(pipeline, X, y, city)
 
     return mae
 
@@ -43,7 +43,7 @@ def get_save_params(mae_sj, mae_iq):
 
     # Get pipeline params and clean them
     pipeline = best_pipeline_intown(Xsj)
-    data = str(pipeline.named_steps['model'])
+    data = str(pipeline.named_steps["model"])
     data = data.replace("\n", "").replace("  ", "")
     data = (
         f"weighted average MAE: {weighted_mean:.3f} +/- {weighted_std:.3f}, "
@@ -62,6 +62,7 @@ def get_save_params(mae_sj, mae_iq):
 
 
 if __name__ == "__main__":
+    # Model cross-evaluation
     mae_sj = cross_evaluate_for_city("sj")
     mae_iq = cross_evaluate_for_city("iq")
     get_save_params(mae_sj, mae_iq)

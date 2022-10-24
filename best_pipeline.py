@@ -1,4 +1,4 @@
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import KNNImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, LabelEncoder
@@ -51,7 +51,29 @@ def best_pipeline_intown(trainX):  ### returns predicted Y
         remainder="passthrough",
     )
 
-    model = RandomForestRegressor(n_estimators=300, max_depth=5)
+    # Random Forest params
+    # params = {
+    #     "n_estimators": 904,
+    #     "min_weight_fraction_leaf": 0.32676767676767676,
+    #     "min_samples_split": 0.44555555555555554,
+    #     "min_samples_leaf": 0.30696969696969695,
+    #     "min_impurity_decrease": 0.06060606060606061,
+    #     "max_leaf_nodes": 180,
+    #     "max_features": "auto",
+    #     "max_depth": 32,
+    #     "criterion": "absolute_error",
+    #     "ccp_alpha": 0.3585858585858586,
+    #     "bootstrap": True,
+    # }
+
+    # Gradient Bossting params
+    params = dict(
+        n_estimators=100
+    )
+
+    # model = RandomForestRegressor(n_estimators=300, max_depth=5, n_jobs=-1)
+    # model = RandomForestRegressor(**params)
+    model = GradientBoostingRegressor(**params)
 
     pipeline = Pipeline(
         [
