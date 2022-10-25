@@ -128,7 +128,7 @@ def smote_oversample_of_peaks(combined_X_Y, based_on="peak"):
     combined_X_Y = combined_X_Y.drop(columns="total_cases_normalized")
     pipe = make_pipeline(
         SimpleImputer(),
-        SMOTE(sampling_strategy=0.75, random_state=42),
+        SMOTE(sampling_strategy=0.9, random_state=42),
     )
     upsampled_X_Y, upsampled_col = pipe.fit_resample(combined_X_Y, resampling_col)
     upsampled_X_Y = pd.DataFrame(upsampled_X_Y, columns=combined_X_Y.columns)
